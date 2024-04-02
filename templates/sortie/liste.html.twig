@@ -7,14 +7,8 @@
     <thead>
     <tr>
         <th>Nom:</th>
-        <th>Date et heure début:</th>
-        <th>Durée:</th>
-        <th>Date limite d'inscription:</th>
-        <th>Nombre d'inscriptions max:</th>
-        <th>Info sortie:</th>
-        <th>État:</th>
-        <th>Lieu:</th>
-        <th>Site:</th>
+       <th>Infos</th>
+        <th>Détail</th>
     </tr>
     </thead>
     <tbody>
@@ -22,6 +16,7 @@
         <tr>
             <td>{{ sortie.nom }}</td>
             <td>{{ sortie.infosSortie }}</td>
+            <td><a href="{{ path('app_detail',{'id': sortie.id}) }}">Détail</a></td>
         </tr>
     {% endfor %}
     </tbody>
