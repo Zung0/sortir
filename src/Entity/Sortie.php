@@ -32,20 +32,14 @@ class Sortie
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $infosSortie = null;
 
-    #[ORM\Column(length: 20)]
-    #[ORM\ManyToOne(targetEntity: Etat::class)]
-    #[ORM\JoinColumn(name: 'etat', referencedColumnName: 'libelle')]
-    private ?Etat $etat = null;
+    #[ORM\ManyToOne(inversedBy: 'sorties')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?etat $relation = null;
 
-    #[ORM\Column(length: 255)]
-    #[ORM\ManyToOne(targetEntity: Lieu::class)]
-    #[ORM\JoinColumn(name: 'lieu', referencedColumnName: 'nom')]
-    private ?Lieu $Lieu = null;
 
-    #[ORM\Column(length: 255)]
-    #[ORM\ManyToOne(targetEntity: Site::class)]
-    #[ORM\JoinColumn(name: 'site', referencedColumnName: 'nom')]
-    private ?Site $Site = null;
+
+
+
 
     public function getId(): ?int
     {
@@ -156,6 +150,18 @@ class Sortie
     public function setSite(string $Site): static
     {
         $this->Site = $Site;
+
+        return $this;
+    }
+
+    public function getRelation(): ?etat
+    {
+        return $this->relation;
+    }
+
+    public function setRelation(?etat $relation): static
+    {
+        $this->relation = $relation;
 
         return $this;
     }
