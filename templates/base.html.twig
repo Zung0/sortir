@@ -12,7 +12,7 @@
         {% endblock %}
     </head>
     <body>
-    {% block body %}
+
         <nav>
             <ul style="display:flex; flex-direction: row;list-style: none;">
                 {% if is_granted('IS_AUTHENTICATED') %}
@@ -22,8 +22,10 @@
                     <li style="padding: 5px;"><a href="{{ path('app_login') }}">Connexion</a></li>
 
                 {% endif %}
+                    <li><a href="{{ path('app_sortie') }}">Liste</a></li>
+                    <li><a href="{{ path('app_create') }}">Create</a></li>
             </ul>
         </nav>
-    {% endblock %}
+        {% block body %}{% endblock %}
     </body>
 </html>
