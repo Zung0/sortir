@@ -1,6 +1,31 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SortieController!{% endblock %}
+{% block title %}Liste sortie{% endblock %}
 {% block body %}
+
+    <section>
+        <table>
+            <thead>
+            <tr>
+                <th>Nom:</th>
+                <th>date heure début :</th>
+                <th>durée:</th>
+                <th>date limite d'inscription:</th>
+                <th>Nombre d'inscription max:</th>
+                <th>Info sortie:</th>
+                <th>Etat:</th>
+            </tr>
+            </thead>
+        </table>
+    </section>
     <p>ici la liste des sortie</p>
-{% endblock %}
+    {% for sorti in sortie %}
+    <p>{{ sorti.nom }}</p>
+    <p>{{ sorti.date_heure_debut }}</p>
+    <p>{{ sorti.duree }}</p>
+    <p>{{ sorti.date_limiteinscription }}</p>
+    <p>{{ sorti.nb_inscription_max }}</p>
+    <p>{{ sorti.info_sortie }}</p>
+    <p>{{ sorti.etat }}</p>
+    {% endfor %}
+{% endblock body %}
