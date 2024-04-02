@@ -19,13 +19,13 @@
         </table>
     </section>
     <p>ici la liste des sortie</p>
-    {% for sorti in sortie %}
-    <p>{{ sorti.nom }}</p>
-    <p>{{ sorti.date_heure_debut }}</p>
-    <p>{{ sorti.duree }}</p>
-    <p>{{ sorti.date_limiteinscription }}</p>
-    <p>{{ sorti.nb_inscription_max }}</p>
-    <p>{{ sorti.info_sortie }}</p>
-    <p>{{ sorti.etat }}</p>
+    {% for sortie in sorties %}
+    <p>{{ sortie.nom }}</p>
+    <p>{{ sortie.date_heure_debut }}</p>
+    <p>{{ sortie.duree }}</p>
+    <p>{{ sortie.date_limiteinscription }}</p>
+    <p>{{ sortie.nb_inscription_max }}</p>
+    <p>{{ sortie.info_sortie }}</p>
+    <p>{{ sortie.etat }}</p>
     {% endfor %}
 {% endblock body %}
