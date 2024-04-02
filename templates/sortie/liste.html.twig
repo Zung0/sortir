@@ -21,14 +21,7 @@
     {% for sortie in sorties %}
         <tr>
             <td>{{ sortie.nom }}</td>
-            <td>{{ sortie.date_heure_debut|date('d-m-Y H:i:s') }}</td>
-            <td>{{ sortie.duree|date('H:i:s') }}</td>
-            <td>{{ sortie.date_limiteinscription|date('d-m-Y H:i:s') }}</td>
-            <td>{{ sortie.nb_inscription_max }}</td>
-            <td>{{ sortie.info_sortie }}</td>
-            <td>{{ sortie.etat }}</td>
-            <td>{{ sortie.lieu }}</td>
-            <td>{{ sortie.site }}</td>
+            <td>{{ sortie.infosSortie }}</td>
         </tr>
     {% endfor %}
     </tbody>
