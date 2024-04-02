@@ -2,30 +2,38 @@
 
 {% block title %}Liste sortie{% endblock %}
 {% block body %}
-
-    <section>
-        <table>
-            <thead>
-            <tr>
-                <th>Nom:</th>
-                <th>date heure début :</th>
-                <th>durée:</th>
-                <th>date limite d'inscription:</th>
-                <th>Nombre d'inscription max:</th>
-                <th>Info sortie:</th>
-                <th>Etat:</th>
-            </tr>
-            </thead>
-        </table>
-    </section>
-    <p>ici la liste des sortie</p>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th>Nom:</th>
+        <th>Date et heure début:</th>
+        <th>Durée:</th>
+        <th>Date limite d'inscription:</th>
+        <th>Nombre d'inscriptions max:</th>
+        <th>Info sortie:</th>
+        <th>État:</th>
+        <th>Lieu:</th>
+        <th>Site:</th>
+    </tr>
+    </thead>
+    <tbody>
     {% for sortie in sorties %}
-    <p>{{ sortie.nom }}</p>
-    <p>{{ sortie.date_heure_debut|date('d-m-Y-H-i-s') }}</p>
-    <p>{{ sortie.duree|date('d-m-Y-H-i-s') }}</p>
-    <p>{{ sortie.date_limiteinscription|date('d-m-Y-H-i-s') }}</p>
-    <p>{{ sortie.nb_inscription_max }}</p>
-    <p>{{ sortie.info_sortie }}</p>
-
+        <tr>
+            <td>{{ sortie.nom }}</td>
+            <td>{{ sortie.date_heure_debut|date('d-m-Y H:i:s') }}</td>
+            <td>{{ sortie.duree|date('H:i:s') }}</td>
+            <td>{{ sortie.date_limiteinscription|date('d-m-Y H:i:s') }}</td>
+            <td>{{ sortie.nb_inscription_max }}</td>
+            <td>{{ sortie.info_sortie }}</td>
+            <td>{{ sortie.etat }}</td>
+            <td>{{ sortie.lieu }}</td>
+            <td>{{ sortie.site }}</td>
+        </tr>
     {% endfor %}
+    </tbody>
+</table>
+</body>
+
+
 {% endblock body %}
