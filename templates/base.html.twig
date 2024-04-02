@@ -12,6 +12,18 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+    {% block body %}
+        <nav>
+            <ul style="display:flex; flex-direction: row;list-style: none;">
+                {% if is_granted('IS_AUTHENTICATED') %}
+                    <li style="padding: 5px;"><a href="{{ path('app_logout') }}">Déconnexion</a></li>
+
+                {% else %}
+                    <li style="padding: 5px;"><a href="{{ path('app_login') }}">Connexion</a></li>
+
+                {% endif %}
+            </ul>
+        </nav>
+    {% endblock %}
     </body>
 </html>
