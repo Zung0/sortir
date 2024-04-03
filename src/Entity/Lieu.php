@@ -30,6 +30,9 @@ class Lieu
     #[ORM\OneToMany(targetEntity: Sortie::class, mappedBy: 'lieu')]
     private Collection $relation;
 
+    #[ORM\Column(length: 255)]
+    private ?string $codePostal = null;
+
     public function __construct()
     {
         $this->relation = new ArrayCollection();
@@ -114,6 +117,18 @@ class Lieu
                 $relation->setLieu(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCodePostal(): ?string
+    {
+        return $this->codePostal;
+    }
+
+    public function setCodePostal(string $codePostal): static
+    {
+        $this->codePostal = $codePostal;
 
         return $this;
     }
