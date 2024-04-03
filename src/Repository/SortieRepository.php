@@ -21,6 +21,16 @@ class SortieRepository extends ServiceEntityRepository
         parent::__construct($registry, Sortie::class);
     }
 
+    public function countParticipants($id)
+    {
+        return $this->createQueryBuilder('s')
+            ->select('COUNT(p.id) as participantCount')
+            ->leftJoin('s.participants', 'p')
+            ->andWhere('s.id = :id')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
     //    /**
     //     * @return Sortie[] Returns an array of Sortie objects
     //     */

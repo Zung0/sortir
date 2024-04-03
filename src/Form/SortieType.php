@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Etat;
+use App\Entity\Site;
 use App\Entity\Sortie;
 use phpDocumentor\Reflection\Types\Collection;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -30,6 +31,11 @@ class SortieType extends AbstractType
             ])
             ->add('nbinscriptionMax')
             ->add('infosSortie')
+            ->add('site', EntityType::class, [
+                'class'=> Site::class,
+                'choice_label' => 'nom',
+                'required' => false
+            ])
             ->add('statut', EntityType::class, [
                 'class' => Etat::class,
                 'choice_label' => 'libelle',
