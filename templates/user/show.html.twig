@@ -3,7 +3,7 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
-    <h1>User</h1>
+    <h1>{{ app.user.username| capitalize}}</h1>
 
 
 
@@ -13,11 +13,9 @@
                 <p>Username</p>
                 <p>{{ user.username }}</p>
 
-                <p>Roles</p>
-                <p>{{ user.roles ? user.roles|json_encode : '' }}</p>
 
                 <p>Password</p>
-                <p>{{ user.password }}</p>
+
 
 
 
