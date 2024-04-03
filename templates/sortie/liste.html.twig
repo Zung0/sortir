@@ -3,19 +3,25 @@
 {% block title %}Liste sortie{% endblock %}
 {% block body %}
 <body>
+<h1>Liste des sorties</h1>
 <table>
     <thead>
     <tr>
         <th>Nom:</th>
        <th>Infos</th>
+        <th>date début</th>
         <th>Détail</th>
     </tr>
     </thead>
     <tbody>
-    {% for sortie in sorties %}
+    {# ici dans l'order 'DES' #}
+    {% set sortedSorties = sorties|sort((a, b) => a.dateheureDebut < b.dateheureDebut) %}
+
+    {% for sortie in sortedSorties %}
         <tr>
             <td>{{ sortie.nom }}</td>
             <td>{{ sortie.infosSortie }}</td>
+            <td>{{ sortie.dateheureDebut|date('Y-m-d H:i:s') }}</td>
             <td><a href="{{ path('app_detail',{'id': sortie.id}) }}">Détail/Inscription</a></td>
         </tr>
     {% endfor %}
