@@ -3,18 +3,18 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
+
     <h1>{{ app.user.username| capitalize}}</h1>
 
-
-
-                <p>Id</p>
-                <p>{{ user.id }}</p>
-
+              <p>Infos utilsiateur connecté</p>
                 <p>Username</p>
                 <p>{{ user.username }}</p>
 
 
-                <p>Password</p>
+
+    {% if user.images is not empty %}
+        <img src="{{ asset('images/' ~ user.images) }}" alt="Image">
+    {% endif %}
 
 
 

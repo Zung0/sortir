@@ -16,15 +16,17 @@
         <nav>
             <ul style="display:flex; flex-direction: row;list-style: none;">
                 <li style="padding: 5px;"><a href="{{ path('app_home') }}">Accueil</a></li>
-                {% if is_granted('IS_AUTHENTICATED') %}
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                     <li style="padding: 5px;"><a href="{{ path('app_logout') }}">Déconnexion</a></li>
                     <li style="padding: 5px;"><a href="{{ path('app_user_show', { 'id': app.user.id }) }}">Profil</a></li>
-                {% else %}
-                    <li style="padding: 5px;"><a href="{{ path('app_login') }}">Connexion</a></li>
-
-                {% endif %}
                     <li style="padding: 5px;"><a href="{{ path('app_sortie') }}">Liste</a></li>
                     <li style="padding: 5px;"><a href="{{ path('app_create') }}">Create</a></li>
+                {% else %}
+                    <li style="padding: 5px;"><a href="{{ path('app_login') }}">Connexion</a></li>
+                    <li style="padding: 5px;"><a href="{{ path('app_register') }}">S'inscrire</a></li>
+
+                {% endif %}
+
             </ul>
         </nav>
         {% block body %}{% endblock %}

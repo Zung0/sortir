@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,7 +23,10 @@ class UserType extends AbstractType
                 'first_options'  => ['label' => 'Password', 'hash_property_path' => 'password'],
                 'second_options' => ['label' => 'Repeat Password'],
                 'mapped' => false,
-            ]);
+            ])
+            ->add('images', FileType::class, [
+                'mapped' => false,
+                'required' => false,])
         ;
     }
 
