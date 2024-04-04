@@ -36,7 +36,8 @@ class SortieController extends AbstractController
 
         return $this->render('sortie/detail.html.twig', [
             'sortie' => $sortie,
-            'nbParticipants' => $nbParticipants
+            'nbParticipants' => $nbParticipants,
+            'user' => $this->getUser()
         ]);
     }
 
@@ -94,6 +95,37 @@ class SortieController extends AbstractController
     public function create(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em, CallAPIService $callService): Response
     {
         $sortie = new Sortie();
+
+        $form = $this->createForm(SortieType::class, $sortie);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /**@var Sortie $newSortie * */
+            $newSortie = $form->getData();
+            $newLocation = $newSortie->getLieu();
+            $responseApi = $callService->getFranceDataLoc($newLocation);
+            if (array_key_exists('features', $responseApi) && count($responseApi['features']) > 0) {
+                $newLocation->setLongitude($responseApi['features'][0]['geometry']['coordinates'][0])
+                    ->setLatitude($responseApi['features'][0]['geometry']['coordinates'][1]);
+                $sortie->setOrganisateur($this->getUser());
+
+                $em->persist($sortie);
+                $em->flush();
+                $this->addFlash('success', 'La sortie a bien été crée');
+                return $this->redirectToRoute('app_sortie');
+            }
+
+        }
+
+        return $this->render('sortie/form.html.twig', [
+            'createForm' => $form
+        ]);
+    }
+    #[Route('/modifier/{id}', name: 'app_modifier', requirements: ['id' => '\d+'], defaults: ['id' => 0])]
+    public function modifier(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em, CallAPIService $callService, Sortie $sortie): Response
+    {
+
 
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);

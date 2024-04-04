@@ -3,13 +3,29 @@
 {% block title %}Hello SortieController!{% endblock %}
 {% block body %}
     <p>détail d'une sortie</p>
-   <p>Id: {{ sortie.id }}</p>
+    <p>Id: {{ sortie.id }}</p>
     <p>Nb places dispo: {{ sortie.nbinscriptionMax }}</p>
     <p>nb de participants: {{ nbParticipants }}</p>
-    {# TODO desinscription et témoins #}
-    <a href="{{ path('app_inscription',{'id': sortie.id}) }}">S'inscrire</a>
+    {# TODO affichage en fonction de l'user connecte #}
 
-    <p>Vous êtes inscrit(e) <a href="{{ path('app_annulerInscription',{'id': sortie.id}) }}">Annuler</a></p>
-    <a href="{{ path('app_delete',{'id': sortie.id}) }}">DELETE</a>
 
+    {% if user is not null %}
+
+
+        {% if user not in sortie.participants %}
+            <a href="{{ path('app_inscription',{'id': sortie.id}) }}">S'inscrire</a>
+        {% endif %}
+
+
+        {% if user in sortie.participants %}
+            <p>Vous êtes inscrit(e) <a href="{{ path('app_annulerInscription',{'id': sortie.id}) }}">Annuler</a></p>
+        {% endif %}
+
+        {% if user == sortie.organisateur %}
+            {# TODO rajouter un lien pour modifier #}
+            <a href="{{ path('app_modifier',{'id': sortie.id}) }}">MODIFIER</a>
+            <a href="{{ path('app_delete',{'id': sortie.id}) }}">DELETE</a>
+        {% endif %}
+
+    {% endif %}
 {% endblock %}
