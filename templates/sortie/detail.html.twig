@@ -10,5 +10,6 @@
     <a href="{{ path('app_inscription',{'id': sortie.id}) }}">S'inscrire</a>
 
     <p>Vous êtes inscrit(e) <a href="{{ path('app_annulerInscription',{'id': sortie.id}) }}">Annuler</a></p>
+    <a href="{{ path('app_delete',{'id': sortie.id}) }}">DELETE</a>
 
 {% endblock %}

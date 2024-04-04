@@ -74,6 +74,21 @@ class SortieController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_detail', ['id' => $id]);
     }
+    #[Route('/delete/{id}', name: 'app_delete', requirements: ['id' => '\d+'])]
+    public function deleteSortie(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
+    {
+        $sortie = $sortieRepository->find($id);
+        if($sortie->getOrganisateur() === $this->getUser())
+        {
+            $em->remove($sortie);
+            $em->flush();
+            return $this->redirectToRoute('app_sortie');
+        }else{
+            $this->addFlash('error', 'Vous ne pouvez pas supprimer une sortie dont vous n\'êtes pas l\'organisateur');
+        }
+
+        return $this->redirectToRoute('app_detail', ['id' => $id]);
+    }
 
     #[Route('/create', name: 'app_create')]
     public function create(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em, CallAPIService $callService): Response
@@ -92,8 +107,7 @@ class SortieController extends AbstractController
             if (array_key_exists('features', $responseApi) && count($responseApi['features']) > 0) {
                 $newLocation->setLongitude($responseApi['features'][0]['geometry']['coordinates'][0])
                     ->setLatitude($responseApi['features'][0]['geometry']['coordinates'][1]);
-                //$user = $this->getUser();
-                //$newSortie->setOrganisateur($user);
+                $sortie->setOrganisateur($this->getUser());
 
                 $em->persist($sortie);
                 $em->flush();

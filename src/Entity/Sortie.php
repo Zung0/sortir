@@ -48,6 +48,9 @@ class Sortie
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'sorties')]
     private Collection $participants;
 
+    #[ORM\ManyToOne(inversedBy: 'organise')]
+    private ?User $organisateur = null;
+
     public function __construct()
     {
         $this->participants = new ArrayCollection();
@@ -198,6 +201,18 @@ class Sortie
     public function removeParticipant(User $participant): static
     {
         $this->participants->removeElement($participant);
+
+        return $this;
+    }
+
+    public function getOrganisateur(): ?User
+    {
+        return $this->organisateur;
+    }
+
+    public function setOrganisateur(?User $organisateur): static
+    {
+        $this->organisateur = $organisateur;
 
         return $this;
     }
