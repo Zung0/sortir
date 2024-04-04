@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello SortieController!{% endblock %}
+{% block title %}Création d'une sortie{% endblock %}
 {% block body %}
-    <p>ici un form</p>
+    {% form_theme createForm 'bootstrap_5_layout.html.twig' %}
     {{ form(createForm) }}
-
 {% endblock %}

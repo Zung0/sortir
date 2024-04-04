@@ -19,22 +19,31 @@
     <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark py-3 shadow-sm">
-        <div id="navbarContent" class="collapse navbar-collapse">
-            <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a href="{{ path('app_home') }}" class="nav-link font-weight-bold text-uppercase">Menu</a></li>
-                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                <li class="nav-item"><a href="{{ path('app_logout') }}" class="nav-link font-weight-bold text-uppercase">Deconnexion</a></li>
-                <li class="nav-item"><a href="{{ path('app_user_show', { 'id': app.user.id }) }}" class="nav-link font-weight-bold text-uppercase">Profil</a></li>
-                <li class="nav-item"><a href="{{ path('app_sortie') }}" class="nav-link font-weight-bold text-uppercase">Liste</a></li>
-                <li class="nav-item"><a href="{{ path('app_create') }}" class="nav-link font-weight-bold text-uppercase">Créer</a></li>
-                {% else %}
-                <li class="nav-item"><a href="{{ path('app_login') }}" class="nav-link font-weight-bold text-uppercase">Connexion</a></li>
-                <li class="nav-item"><a href="{{ path('app_register') }}" class="nav-link font-weight-bold text-uppercase">S'inscrire</a></li>
-                {% endif %}
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+         </button>
 
-            </ul>
+            <div id="navbarNav" class="collapse navbar-collapse">
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item active"><a href="{{ path('app_home') }}" class="nav-link font-weight-bold text-uppercase">Menu</a></li>
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <li class="nav-item"><a href="{{ path('app_logout') }}" class="nav-link font-weight-bold text-uppercase">Deconnexion</a></li>
+                    <li class="nav-item"><a href="{{ path('app_user_show', { 'id': app.user.id }) }}" class="nav-link font-weight-bold text-uppercase">Profil</a></li>
+                    <li class="nav-item"><a href="{{ path('app_sortie') }}" class="nav-link font-weight-bold text-uppercase">Liste</a></li>
+                    <li class="nav-item"><a href="{{ path('app_create') }}" class="nav-link font-weight-bold text-uppercase">Créer</a></li>
+                    {% else %}
+                    <li class="nav-item"><a href="{{ path('app_login') }}" class="nav-link font-weight-bold text-uppercase">Connexion</a></li>
+                    <li class="nav-item"><a href="{{ path('app_register') }}" class="nav-link font-weight-bold text-uppercase">S'inscrire</a></li>
+                    {% endif %}
+                    </li>
+
+                </ul>
+            </div>
+
         </div>
     </nav>
+
         {% block body %}{% endblock %}
     </body>
 </html>
