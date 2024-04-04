@@ -4,8 +4,11 @@
 {% block body %}
     <p>détail d'une sortie</p>
    <p>Id: {{ sortie.id }}</p>
+    <p>Nb places dispo: {{ sortie.nbinscriptionMax }}</p>
     <p>nb de participants: {{ nbParticipants }}</p>
     {# TODO desinscription et témoins #}
     <a href="{{ path('app_inscription',{'id': sortie.id}) }}">S'inscrire</a>
+
+    <p>Vous êtes inscrit(e) <a href="{{ path('app_annulerInscription',{'id': sortie.id}) }}">Annuler</a></p>
 
 {% endblock %}

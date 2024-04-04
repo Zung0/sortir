@@ -44,11 +44,34 @@ class SortieController extends AbstractController
     public function inscription(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         $sortie = $sortieRepository->find($id);
+
+
+        if (!$sortie->getParticipants()->contains($this->getUser())) {
+            $nbplaces = $sortie->getNbinscriptionMax();
+            $nbplaces--;
+            $sortie->setNbinscriptionMax($nbplaces);
+        }
+
         $sortie->addParticipant($this->getUser());
         $em->persist($sortie);
         $em->flush();
         //dd($sortie);
 
+        return $this->redirectToRoute('app_detail', ['id' => $id]);
+    }
+
+    #[Route('/annulerInscription/{id}', name: 'app_annulerInscription', requirements: ['id' => '\d+'], defaults: ['id' => 0])]
+    public function annulerInscription(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
+    {
+        $sortie = $sortieRepository->find($id);
+        if ($sortie->getParticipants()->contains($this->getUser())) {
+            $nbplaces = $sortie->getNbinscriptionMax();
+            $nbplaces++;
+            $sortie->setNbinscriptionMax($nbplaces);
+        }
+        $sortie->removeParticipant($this->getUser());
+        $em->persist($sortie);
+        $em->flush();
         return $this->redirectToRoute('app_detail', ['id' => $id]);
     }
 
