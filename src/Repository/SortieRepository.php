@@ -31,6 +31,7 @@ class SortieRepository extends ServiceEntityRepository
             ->getQuery()
             ->getSingleScalarResult();
     }
+
     //    /**
     //     * @return Sortie[] Returns an array of Sortie objects
     //     */

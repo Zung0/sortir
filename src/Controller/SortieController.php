@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etat;
 use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\User;
@@ -21,10 +22,23 @@ class SortieController extends AbstractController
     #[Route('/sortie', name: 'app_sortie')]
     public function index(SortieRepository $sortieRepository): Response
     {
-        $sorties = $sortieRepository->findAll();
+        $sortiesBeforeFilter = $sortieRepository->findAll();
+        $oneMonthFromNow = new \DateTime();
+        $oneMonthFromNow->modify('+1 month');
+
+        foreach ($sortiesBeforeFilter as $sortie) {
+            if ($sortie->getDateHeureDebut() < $oneMonthFromNow) {
+                $sorties[] = $sortie;
+            }
+//            }else{
+//                //TODO modifier le statut
+//            }
+        }
         return $this->render('sortie/liste.html.twig', [
             'controller_name' => 'SortieController',
-            'sorties' => $sorties
+            'sorties' => $sorties,
+            'oneMonthFromNow'=> $oneMonthFromNow
+
         ]);
     }
 
@@ -75,16 +89,16 @@ class SortieController extends AbstractController
         $em->flush();
         return $this->redirectToRoute('app_detail', ['id' => $id]);
     }
+
     #[Route('/delete/{id}', name: 'app_delete', requirements: ['id' => '\d+'])]
     public function deleteSortie(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         $sortie = $sortieRepository->find($id);
-        if($sortie->getOrganisateur() === $this->getUser())
-        {
+        if ($sortie->getOrganisateur() === $this->getUser()) {
             $em->remove($sortie);
             $em->flush();
             return $this->redirectToRoute('app_sortie');
-        }else{
+        } else {
             $this->addFlash('error', 'Vous ne pouvez pas supprimer une sortie dont vous n\'êtes pas l\'organisateur');
         }
 
@@ -122,6 +136,7 @@ class SortieController extends AbstractController
             'createForm' => $form
         ]);
     }
+
     #[Route('/modifier/{id}', name: 'app_modifier', requirements: ['id' => '\d+'], defaults: ['id' => 0])]
     public function modifier(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em, CallAPIService $callService, Sortie $sortie): Response
     {
