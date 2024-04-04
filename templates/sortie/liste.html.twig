@@ -8,10 +8,10 @@
     <thead>
     <tr>
         <th>Nom:</th>
-       <th>Infos</th>
         <th>date début</th>
+        <th>Cloture Inscription</th>
+        <th>Inscrits/Places</th>
         <th>Détail</th>
-        <th>Date de la sortie</th>
         <form id="form" action="{{ path('app_sortie') }}" method="get">
             <select name="sort" onchange="this.form.submit()">
                 <option value="">-- Choisir l'ordre de tri --</option>
@@ -37,10 +37,10 @@
     {% for sortie in sortedSorties %}
         <tr>
             <td>{{ sortie.nom }}</td>
-            <td>{{ sortie.infosSortie }}</td>
-            <td>{{ sortie.dateheureDebut|date('Y-m-d H:i:s') }}</td>
+            <td>{{ sortie.dateheureDebut|date('Y-m-d') }}</td>
+            <td>{{ sortie.datelimiteInscription|date('d/m/Y') }}</td>
+            <td>{{ sortie.participants|length }}/{{ sortie.nbinscriptionMax }}</td>
             <td><a href="{{ path('app_detail',{'id': sortie.id}) }}">Détail/Inscription</a></td>
-            <td>{{ sortie.dateHeureDebut|date('d/m/Y H:i') }}</td>
         </tr>
     {% endfor %}
     </tbody>
