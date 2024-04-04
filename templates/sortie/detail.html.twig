@@ -6,7 +6,6 @@
     <p>Id: {{ sortie.id }}</p>
     <p>Nb places dispo: {{ sortie.nbinscriptionMax }}</p>
     <p>nb de participants: {{ nbParticipants }}</p>
-    {# TODO affichage en fonction de l'user connecte #}
 
 
     {% if user is not null %}
@@ -22,7 +21,7 @@
         {% endif %}
 
         {% if user == sortie.organisateur %}
-            {# TODO rajouter un lien pour modifier #}
+
             <a href="{{ path('app_modifier',{'id': sortie.id}) }}">MODIFIER</a>
             <a href="{{ path('app_delete',{'id': sortie.id}) }}">DELETE</a>
         {% endif %}

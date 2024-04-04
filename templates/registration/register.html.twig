@@ -3,19 +3,17 @@
 {% block title %}Register{% endblock %}
 
 {% block body %}
-    <h1>Register</h1>
-
-    <p>Please fill out the following form to register:</p>
-
-    {{ form_errors(registrationForm) }}
+    <h1>Inscription</h1>
 
     {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+    {{ form_errors(registrationForm) }}
 
-        <button type="submit" class="btn">Register</button>
+    {{ form_row(registrationForm.username, {'label': 'Pseudo'}) }}
+    {{ form_row(registrationForm.nom, {'label': 'Nom'}) }}
+    {{ form_row(registrationForm.prenom, {'label': 'Prénom'}) }}
+    {{ form_row(registrationForm.email, {'label': 'Email'}) }}
+    {{ form_row(registrationForm.telephone, {'label': 'Numéro de téléphone'}) }}
+    {{ form_row(registrationForm.plainPassword, {'label': 'Mot de passe'}) }}
+
     {{ form_end(registrationForm) }}
 {% endblock %}

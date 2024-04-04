@@ -45,6 +45,7 @@ class UserController extends AbstractController
 //        ]);
 //    }
 
+//affiche le profil de la personne connectée
     #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
