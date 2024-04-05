@@ -48,11 +48,13 @@ class SortieController extends AbstractController
     {
         $sortie = $sortieRepository->find($id);
         $nbParticipants = $sortieRepository->countParticipants($id);
+        $participants = $sortie->getParticipants();
 
         return $this->render('sortie/detail.html.twig', [
             'sortie' => $sortie,
             'nbParticipants' => $nbParticipants,
-            'user' => $this->getUser()
+            'user' => $this->getUser(),
+            'participants' => $participants
         ]);
     }
 
