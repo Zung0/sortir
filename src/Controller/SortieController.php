@@ -28,18 +28,24 @@ class SortieController extends AbstractController
         $oneMonthFromNow = new \DateTime();
         $oneMonthFromNow->modify('+1 month');
 
+        $sorties = []; // Initialisez le tableau de sorties filtrées
+
         foreach ($sortiesBeforeFilter as $sortie) {
-            if ($sortie->getDateHeureDebut() < $oneMonthFromNow) {
+            $dateDebut = $sortie->getDateHeureDebut();
+            $interval = $dateDebut->diff($oneMonthFromNow);
+            if ($interval->invert === 0 && $interval->m <= 1) {
+                // La sortie commence dans le mois actuel ou dans le mois suivant
                 $sorties[] = $sortie;
             } else {
+                // La sortie commence après le mois suivant
                 $sortie->setStatut($statut);
             }
         }
+
         return $this->render('sortie/liste.html.twig', [
             'controller_name' => 'SortieController',
             'sorties' => $sorties,
             'oneMonthFromNow' => $oneMonthFromNow
-
         ]);
     }
 
@@ -62,19 +68,23 @@ class SortieController extends AbstractController
     public function inscription(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         $sortie = $sortieRepository->find($id);
+        if($sortie->getDateLimiteInscription() > new \DateTime())
+        {
+            if (!$sortie->getParticipants()->contains($this->getUser())) {
+                $nbplaces = $sortie->getNbinscriptionMax();
+                $nbplaces--;
+                $sortie->setNbinscriptionMax($nbplaces);
+            }
 
+            $sortie->addParticipant($this->getUser());
+            $em->persist($sortie);
+            $em->flush();
+            //dd($sortie);
 
-        if (!$sortie->getParticipants()->contains($this->getUser())) {
-            $nbplaces = $sortie->getNbinscriptionMax();
-            $nbplaces--;
-            $sortie->setNbinscriptionMax($nbplaces);
+            return $this->redirectToRoute('app_detail', ['id' => $id]);
         }
 
-        $sortie->addParticipant($this->getUser());
-        $em->persist($sortie);
-        $em->flush();
-        //dd($sortie);
-
+        $this->addFlash('error', 'La date limite d\'inscription est dépassée');
         return $this->redirectToRoute('app_detail', ['id' => $id]);
     }
 
