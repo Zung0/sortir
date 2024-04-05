@@ -5,49 +5,53 @@
     <h2>Afficher une sortie</h2>
     <table class="table table-striped">
         <thead>
-    <tr>
-        <th>Identifiant de la sortie</th>
-        <th>Nom de la sortie</th>
-        <th>Date de la sortie</th>
-        <th>Date limite d'inscription</th>
-        <th>Nombre de places</th>
-        <th>Nombre de participants</th>
-        <th>Descritption et infos</th>
-        <th>Ville organisatrice</th>
-    </tr>
+        <tr>
+            <th>Identifiant de la sortie</th>
+            <th>Nom de la sortie</th>
+            <th>Date de la sortie</th>
+            <th>Date limite d'inscription</th>
+            <th>Nombre de places</th>
+            <th>Nombre de participants</th>
+            <th>Descritption et infos</th>
+            <th>Ville organisatrice</th>
+        </tr>
         </thead>
 
-    <tbody>
+        <tbody>
         <td> {{ sortie.id }}</td>
         <td> {{ sortie.nom }}</td>
-        <td> {{ sortie.dateheureDebut | date('Y-m-d')}}</td>
-        <td> {{ sortie.datelimiteInscription | date('Y-m-d')}}</td>
+        <td> {{ sortie.dateheureDebut | date('Y-m-d') }}</td>
+        <td> {{ sortie.datelimiteInscription | date('Y-m-d') }}</td>
         <td>{{ sortie.nbinscriptionMax }}</td>
+        <td>{{ nbParticipants }}</td>
         <td>{{ sortie.infosSortie }}</td>
-        <td>A faire</td>
+        {% if sortie.site is not null %}
+            <td>{{ sortie.site.nom }}</td>
+        {% else %}
+            <td>TBD</td>
+        {% endif %}
 
-
-    </tbody>
+        </tbody>
     </table>
 
     <table class="table table-striped">
         <thead>
-    <tr>
-        <th>Liste des participants</th>
-        <th>Pseudo</th>
-        <th>Nom</th>
-    </tr>
+        <tr>
+            <th>Liste des participants</th>
+            <th>Pseudo</th>
+            <th>Nom</th>
+        </tr>
         </thead>
         <tbody>
         <td>{{ nbParticipants }}</td>
         {% for participants in sortie.participants %}
             <td>
-               <a href="{{ path('app_user_show', {'id': participants.id}) }}"> {{ participants.username }} </a>
+                <a href="{{ path('app_user_show', {'id': participants.id}) }}"> {{ participants.username }} </a>
             </td>
             <td> {{ participants.nom }} {{ participants.prenom }}</td>
         {% endfor %}
 
-    </tr>
+        </tr>
         </tbody>
     </table>
 
