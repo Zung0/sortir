@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\LieuType;
 use App\Form\SortieType;
 use App\Helpers\CallAPIService;
+use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -20,8 +21,9 @@ use Symfony\Component\Routing\Attribute\Route;
 class SortieController extends AbstractController
 {
     #[Route('/sortie', name: 'app_sortie')]
-    public function index(SortieRepository $sortieRepository): Response
+    public function index(SortieRepository $sortieRepository, EtatRepository $statutRepository): Response
     {
+        $statut = $statutRepository->find(3);
         $sortiesBeforeFilter = $sortieRepository->findAll();
         $oneMonthFromNow = new \DateTime();
         $oneMonthFromNow->modify('+1 month');
@@ -29,15 +31,14 @@ class SortieController extends AbstractController
         foreach ($sortiesBeforeFilter as $sortie) {
             if ($sortie->getDateHeureDebut() < $oneMonthFromNow) {
                 $sorties[] = $sortie;
+            } else {
+                $sortie->setStatut($statut);
             }
-//            }else{
-//                //TODO modifier le statut
-//            }
         }
         return $this->render('sortie/liste.html.twig', [
             'controller_name' => 'SortieController',
             'sorties' => $sorties,
-            'oneMonthFromNow'=> $oneMonthFromNow
+            'oneMonthFromNow' => $oneMonthFromNow
 
         ]);
     }
