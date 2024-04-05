@@ -28,7 +28,7 @@ class SortieController extends AbstractController
         $oneMonthFromNow = new \DateTime();
         $oneMonthFromNow->modify('+1 month');
 
-        $sorties = []; // Initialisez le tableau de sorties filtrées
+        $sorties = [];
 
         foreach ($sortiesBeforeFilter as $sortie) {
             $dateDebut = $sortie->getDateHeureDebut();
