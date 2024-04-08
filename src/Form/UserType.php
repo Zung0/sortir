@@ -13,6 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class UserType extends AbstractType
 {
@@ -45,8 +46,20 @@ class UserType extends AbstractType
             ])
             ->add('images', FileType::class, [
                 'mapped' => false,
-                'required' => false,])
-        ;
+                'required' => false,
+                 'constraints' => [
+                     new File([
+                        'maxSize' => '1024k',
+                        'maxSizeMessage' => "L'image est trop lourde",
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/jpg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => "Ce Format n'est pas pris en charge"
+                ])
+            ]
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
