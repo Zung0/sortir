@@ -7,8 +7,10 @@ use App\Entity\Lieu;
 use App\Entity\Sortie;
 use App\Entity\User;
 use App\Form\LieuType;
+use App\Form\SearchForm;
 use App\Form\SortieType;
 use App\Helpers\CallAPIService;
+use App\Helpers\SearchData;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
 use Doctrine\ORM\EntityManager;
@@ -21,31 +23,19 @@ use Symfony\Component\Routing\Attribute\Route;
 class SortieController extends AbstractController
 {
     #[Route('/sortie', name: 'app_sortie')]
-    public function index(SortieRepository $sortieRepository, EtatRepository $statutRepository): Response
+    public function index(SortieRepository $sortieRepository, EtatRepository $statutRepository, \Symfony\Component\HttpFoundation\Request $request): Response
     {
-        $statut = $statutRepository->find(3);
-        $sortiesBeforeFilter = $sortieRepository->findAll();
-        $oneMonthFromNow = new \DateTime();
-        $oneMonthFromNow->modify('+1 month');
-
-        $sorties = [];
-
-        foreach ($sortiesBeforeFilter as $sortie) {
-            $dateDebut = $sortie->getDateHeureDebut();
-            $interval = $dateDebut->diff($oneMonthFromNow);
-            if ($interval->invert === 0 && $interval->m <= 1) {
-                // La sortie commence dans le mois actuel ou dans le mois suivant
-                $sorties[] = $sortie;
-            } else {
-                // La sortie commence après le mois suivant
-                $sortie->setStatut($statut);
-            }
-        }
-
+        $data = new SearchData();
+        $form = $this->createForm(SearchForm::class, $data);
+        $form->handleRequest($request);
+        $oneMonthAgo = new \DateTime('-1 month');
+        $sorties = $sortieRepository->finSearch($data, $this->getUser());
+        //TODO fix tri
         return $this->render('sortie/liste.html.twig', [
             'controller_name' => 'SortieController',
             'sorties' => $sorties,
-            'oneMonthFromNow' => $oneMonthFromNow
+            'onMonthAgo' => $oneMonthAgo,
+            'form' => $form
         ]);
     }
 
@@ -67,8 +57,7 @@ class SortieController extends AbstractController
     public function inscription(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         $sortie = $sortieRepository->find($id);
-        if($sortie->getDateLimiteInscription() > new \DateTime())
-        {
+        if ($sortie->getDateLimiteInscription() > new \DateTime()) {
             if (!$sortie->getParticipants()->contains($this->getUser())) {
                 $nbplaces = $sortie->getNbinscriptionMax();
                 $nbplaces--;

@@ -4,6 +4,19 @@
 {% block body %}
 <body>
 <h1>Liste des sorties</h1>
+ {{ form(form) }}
+{% set sortedSorties = sorties|sort((a, b) => a.dateheureDebut < b.dateheureDebut) %}
+{% if sortedSorties is empty %}
+    {% set sortedSorties = 'DESC' %}
+{% endif %}
+{% if app.request.query.has('sort') %}
+    {% set sortedSorties = app.request.query.get('sort') %}
+{% endif %}
+{% if sortedSorties == 'ASC' %}
+    {% set sortedSorties = sorties|sort((a, b) => a.dateheureDebut < b.dateheureDebut) %}
+{% else %}
+    {% set sortedSorties = sorties|sort((a, b) => a.dateheureDebut > b.dateheureDebut) %}
+{% endif %}
 <table>
     <thead>
     <tr>
@@ -11,6 +24,7 @@
         <th>date début</th>
         <th>Cloture Inscription</th>
         <th>Inscrits/Places</th>
+        <th>Etat</th>
         <th>Détail</th>
         <form id="form" action="{{ path('app_sortie') }}" method="get">
             <select name="sort" onchange="this.form.submit()">
@@ -22,25 +36,15 @@
     </tr>
     </thead>
     <tbody>
-    {% set sortedSorties = sorties|sort((a, b) => a.dateheureDebut < b.dateheureDebut) %}
-    {% if sortedSorties is empty %}
-    {% set sortedSorties = 'DESC' %}
-    {% endif %}
-    {% if app.request.query.has('sort') %}
-    {% set sortedSorties = app.request.query.get('sort') %}
-    {% endif %}
-        {% if sortedSorties == 'ASC' %}
-    {% set sortedSorties = sorties|sort((a, b) => a.dateheureDebut < b.dateheureDebut) %}
-    {% else %}
-    {% set sortedSorties = sorties|sort((a, b) => a.dateheureDebut > b.dateheureDebut) %}
-    {% endif %}
+
     {% for sortie in sortedSorties %}
         <tr>
             <td>{{ sortie.nom }}</td>
             <td>{{ sortie.dateheureDebut|date('Y-m-d') }}</td>
             <td>{{ sortie.datelimiteInscription|date('d/m/Y') }}</td>
             <td>{{ sortie.participants|length }}/{{ sortie.nbinscriptionMax }}</td>
-            {% if sortie.dateheureDebut < oneMonthFromNow %}
+            <td>{{ sortie.statut.libelle }}</td>
+            {% if sortie.dateheureDebut > onMonthAgo %}
                 <td><a href="{{ path('app_detail', {'id': sortie.id}) }}">Détail/Inscription</a></td>
             {% endif %}
         </tr>
