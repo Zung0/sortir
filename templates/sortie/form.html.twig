@@ -2,6 +2,8 @@
 
 {% block title %}Création d'une sortie{% endblock %}
 {% block body %}
+    <div id="div1">
     {% form_theme createForm 'bootstrap_5_layout.html.twig' %}
     {{ form(createForm) }}
+    </div>
 {% endblock %}

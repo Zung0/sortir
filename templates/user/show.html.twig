@@ -3,20 +3,20 @@
 {% block title %}User{% endblock %}
 
 {% block body %}
+    <div id="div1">
+        <h1>Profil de {{ app.user.username|capitalize }}</h1>
 
-    <h1>Profil de {{ app.user.username|capitalize }}</h1>
+        <p>Nom: {{ app.user.nom }}</p>
+        <p>Prénom: {{ app.user.prenom }}</p>
+        <p>Email: {{ app.user.email }}</p>
+        <p>Numéro de téléphone: {{ app.user.telephone }}</p>
 
-    <p>Nom: {{ app.user.nom }}</p>
-    <p>Prénom: {{ app.user.prenom }}</p>
-    <p>Email: {{ app.user.email }}</p>
-    <p>Numéro de téléphone: {{ app.user.telephone }}</p>
+        {% if user.images is not empty %}
+            <img src="{{ asset('images/' ~ user.images) }}" alt="Image" id="img">
+        {% endif %}
 
-    {% if user.images is not empty %}
-        <img src="{{ asset('images/' ~ user.images) }}" alt="Image">
-    {% endif %}
-
-    <a href="{{ path('app_user_index') }}">Retour à la liste des utilisateurs</a>
-    <a href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier le profil</a>
-
-    {{ include('user/_delete_form.html.twig') }}
+        <br><button id="button" type="button" class="btn-primary"><a id="antilien" href="{{ path('app_user_index') }}">Retour à la liste des utilisateurs</a></button><br>
+        <button id="button" type="button" class="btn-primary"><a id="antilien" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier le profil</a></button>
+        {{ include('user/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

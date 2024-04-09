@@ -3,6 +3,24 @@
 {% block title %}{{ parent() }} :: Accueil{% endblock %}
 
 {% block body %}
-    <h2>Sortir.com</h2>
-    <p>Bienvenue sur Sortir.com !</p>
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('styles/style.css') }}">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    {% endblock %}
+    <div id="div1">
+        <h2>Sortir.com</h2>
+        <p>Bienvenue sur Sortir.com !</p>
+        <p>
+
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean cursus, purus id consequat dictum, turpis dolor rhoncus dolor, nec euismod metus nisi eget augue. Sed laoreet massa non nisi ornare iaculis. Proin quis augue in ex tempus sollicitudin. Vivamus tempor nulla at ornare mollis. Pellentesque pretium libero eu diam semper, eget tincidunt turpis auctor. Pellentesque felis purus, interdum vel finibus vitae, pulvinar vitae lorem. Vivamus lacinia vulputate congue. Duis ipsum nibh, placerat non rhoncus ac, elementum vel orci. Sed venenatis et risus quis placerat. In hac habitasse platea dictumst. Nullam ac condimentum purus, nec placerat nisi.
+
+            Maecenas sed elit vel diam commodo pulvinar. Maecenas turpis mi, accumsan vel pharetra sit amet, laoreet a augue. Sed ut felis condimentum, sagittis nisl sit amet, fermentum nunc. Duis dapibus est neque. Fusce urna nibh, sagittis ac iaculis ac, tincidunt a purus. Ut placerat odio enim, vel mollis mauris ornare quis. Vestibulum condimentum, nisl nec rutrum feugiat, ante magna volutpat dolor, at luctus sem nunc a ex.
+
+            Suspendisse ut tempor mauris. Donec rutrum augue magna, ac laoreet massa ultrices eget. Fusce mauris mauris, feugiat id turpis vel, rutrum laoreet justo. Proin elementum dui sed lacinia luctus. In tincidunt nulla nec lorem egestas, non scelerisque justo blandit. Praesent massa quam, consequat sit amet erat id, varius cursus augue. Fusce sagittis velit at sodales pretium. Nulla vel quam id lorem sagittis mollis sit amet eu mi. Maecenas luctus, urna convallis sodales viverra, purus est aliquet enim, eu pulvinar neque risus vitae enim.
+
+            Mauris dapibus condimentum lectus quis fringilla. Vivamus sit amet felis eu eros elementum pellentesque in sed sapien. Cras turpis risus, bibendum a tellus in, hendrerit sollicitudin tellus. Phasellus laoreet quis risus id condimentum. Praesent auctor nulla in nibh blandit, eget lacinia nisl luctus. Morbi rutrum vitae diam facilisis rhoncus. Nulla iaculis metus mi, vitae posuere ipsum consequat id. Ut id consequat neque, sed venenatis sem. Donec auctor neque non tortor porttitor scelerisque sit amet id mi. Ut sodales enim sit amet orci convallis luctus. Cras posuere pellentesque dui, at eleifend sapien porta at.
+
+            Vestibulum ac felis posuere, auctor massa sed, aliquet diam. Quisque accumsan id nunc at vehicula. Donec vel porttitor purus, id elementum turpis. Suspendisse lobortis lobortis massa, eget ornare libero sagittis sagittis. Sed faucibus hendrerit mi, ac fermentum sem mollis sed. Aenean vel ipsum ligula. Mauris hendrerit tellus ut orci dignissim laoreet. Curabitur pellentesque posuere leo sollicitudin dictum. Ut placerat lacinia ultricies. Vivamus leo ante, fermentum eu urna vel, porttitor suscipit quam. Etiam eleifend sapien nec rutrum viverra. Vivamus iaculis diam nec dui posuere, vitae finibus justo mattis. Quisque auctor purus non arcu cursus, nec bibendum nibh accumsan. Duis malesuada finibus nulla, vitae volutpat tortor pharetra vel. </p>
+    </div>
 {% endblock %}
+
