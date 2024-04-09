@@ -10,6 +10,7 @@ use App\Form\LieuType;
 use App\Form\SearchForm;
 use App\Form\SortieType;
 use App\Helpers\CallAPIService;
+use App\Helpers\Censurator;
 use App\Helpers\SearchData;
 use App\Repository\EtatRepository;
 use App\Repository\SortieRepository;
@@ -116,7 +117,7 @@ class SortieController extends AbstractController
     }
 
     #[Route('/create', name: 'app_create')]
-    public function create(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em, CallAPIService $callService): Response
+    public function create(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em, CallAPIService $callService, Censurator $censurator): Response
     {
         $sortie = new Sortie();
 
@@ -133,7 +134,7 @@ class SortieController extends AbstractController
                 $newLocation->setLongitude($responseApi['features'][0]['geometry']['coordinates'][0])
                     ->setLatitude($responseApi['features'][0]['geometry']['coordinates'][1]);
                 $sortie->setOrganisateur($this->getUser());
-
+                $sortie->setInfosSortie($censurator->purify($sortie->getInfosSortie()));
                 $em->persist($sortie);
                 $em->flush();
                 $this->addFlash('success', 'La sortie a bien été crée');
