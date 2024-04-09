@@ -26,11 +26,18 @@ class SortieController extends AbstractController
     public function index(SortieRepository $sortieRepository, EtatRepository $statutRepository, \Symfony\Component\HttpFoundation\Request $request): Response
     {
         $data = new SearchData();
+        $sorties =[];
         $form = $this->createForm(SearchForm::class, $data);
         $form->handleRequest($request);
         $oneMonthAgo = new \DateTime('-1 month');
-        $sorties = $sortieRepository->finSearch($data, $this->getUser());
-        //TODO fix tri
+        $sortiesBeforeFilter = $sortieRepository->finSearch($data, $this->getUser());
+        foreach ($sortiesBeforeFilter as $sortie) {
+            if($sortie->getDateHeureDebut() < $oneMonthAgo) {
+                $sortie->setstatut($statutRepository->findOneBy(['libelle' => 'Passée']));
+            }else{
+                $sorties[] = $sortie;
+            }
+        }
         return $this->render('sortie/liste.html.twig', [
             'controller_name' => 'SortieController',
             'sorties' => $sorties,
@@ -43,13 +50,15 @@ class SortieController extends AbstractController
     public function detail(SortieRepository $sortieRepository, int $id): Response
     {
         $sortie = $sortieRepository->find($id);
+        $now = new \DateTime();
         $nbParticipants = $sortieRepository->countParticipants($id);
         $participants = $sortie->getParticipants();
         return $this->render('sortie/detail.html.twig', [
             'sortie' => $sortie,
             'nbParticipants' => $nbParticipants,
             'user' => $this->getUser(),
-            'participants' => $participants
+            'participants' => $participants,
+            'now' => $now
         ]);
     }
 

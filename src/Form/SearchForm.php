@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -57,6 +58,15 @@ class SearchForm extends AbstractType
                 'required' => false,
                 'label' => 'Sorties auxquelles je ne suis pas inscrit'
             ])
+            ->add('orderBy', ChoiceType::class, [
+                'choices' => [
+                    'Du plus récent au plus ancien' => 'ASC',
+                    'Du plus ancien au plus récent' => 'DESC'
+                ],
+                    'required' => false,
+                    'placeholder' => 'Trier par',
+
+                ])
             ->add('submit', SubmitType::class);
 
 

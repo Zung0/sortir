@@ -5,18 +5,7 @@
 <body>
 <h1>Liste des sorties</h1>
  {{ form(form) }}
-{% set sortedSorties = sorties|sort((a, b) => a.dateheureDebut < b.dateheureDebut) %}
-{% if sortedSorties is empty %}
-    {% set sortedSorties = 'DESC' %}
-{% endif %}
-{% if app.request.query.has('sort') %}
-    {% set sortedSorties = app.request.query.get('sort') %}
-{% endif %}
-{% if sortedSorties == 'ASC' %}
-    {% set sortedSorties = sorties|sort((a, b) => a.dateheureDebut < b.dateheureDebut) %}
-{% else %}
-    {% set sortedSorties = sorties|sort((a, b) => a.dateheureDebut > b.dateheureDebut) %}
-{% endif %}
+
 <table>
     <thead>
     <tr>
@@ -26,18 +15,12 @@
         <th>Inscrits/Places</th>
         <th>Etat</th>
         <th>Détail</th>
-        <form id="form" action="{{ path('app_sortie') }}" method="get">
-            <select name="sort" onchange="this.form.submit()">
-                <option value="">-- Choisir l'ordre de tri --</option>
-                <option value="DESC">Plus ancien</option>
-                <option value="ASC" >Plus récent</option>
-            </select>
-        </form>
+
     </tr>
     </thead>
     <tbody>
 
-    {% for sortie in sortedSorties %}
+    {% for sortie in sorties %}
         <tr>
             <td>{{ sortie.nom }}</td>
             <td>{{ sortie.dateheureDebut|date('Y-m-d') }}</td>

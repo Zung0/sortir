@@ -17,5 +17,6 @@ class SearchData
     public $isInscrit = false;
     public $isNotInscrit = false;
     public $sortiesPassees;
+    public $orderBy = '';
 
 }

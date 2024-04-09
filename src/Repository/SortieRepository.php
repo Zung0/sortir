@@ -69,47 +69,26 @@ class SortieRepository extends ServiceEntityRepository
                 ->andWhere('p.dateHeureDebut <= :dateNow')
                 ->setParameter('dateNow', new \DateTime());
         }
-        if(!empty($search->isOrganisateur)){
+        if (!empty($search->isOrganisateur)) {
             $query = $query
                 ->andWhere('p.organisateur = :user')
-                ->setParameter('user', $user->getId());
-              ;
+                ->setParameter('user', $user->getId());;
         }
-        if(!empty($search->isInscrit)){
+        if (!empty($search->isInscrit)) {
             $query = $query
                 ->andWhere(':user MEMBER OF p.participants')
                 ->setParameter('user', $user->getId());
         }
-        if(!empty($search->isNotInscrit)){
+        if (!empty($search->isNotInscrit)) {
             $query = $query
                 ->andWhere(':user NOT MEMBER OF p.participants')
                 ->setParameter('user', $user->getId());
         }
+        if (!empty($search->orderBy)) {
+            $query = $query
+                ->orderBy('p.dateHeureDebut', $search->orderBy);
+        }
         return $query->getQuery()->getResult();
     }
 
-    //    /**
-    //     * @return Sortie[] Returns an array of Sortie objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Sortie
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
