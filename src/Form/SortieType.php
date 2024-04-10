@@ -24,6 +24,9 @@ class SortieType extends AbstractType
             ->add('nom')
             ->add('dateHeureDebut', null, [
                 'widget' => 'single_text',
+                'attr' => [
+                    'class' => 'col-form-label'
+                ]
             ])
             ->add('duree', null, [
                 'widget' => 'single_text',

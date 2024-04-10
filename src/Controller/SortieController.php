@@ -146,7 +146,7 @@ class SortieController extends AbstractController
     public function modifier(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em,
                              CallAPIService                            $callService, Sortie $sortie, Censurator $censurator): Response
     {
-        //TODO tester la condition quand on aura pu git sinon implementer voter
+        //TODO tester la condition quand on aura pu git sinon implementer voter pareil pour delete
 //        if ($sortie->getOrganisateur() === $this->getUser() or $this->getUser()->getRoles() === array('ROLE_ADMIN')) {
 
 
