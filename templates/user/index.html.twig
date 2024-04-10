@@ -7,6 +7,8 @@
                 <p class="font-weight-bold">{{ user.id }}</p>
                 <p class="font-weight-bold">{{ user.username }}</p>
                 <p>
+                    <a href="{{ path('app_user_show', {'id': user.id}) }}">show</a>
+
                     <button class="btn btn-primary"><a id="antilien" href="{{ path('app_user_show', {'id': user.id}) }}">show</a></button>
                     <button class="btn btn-primary"><a id="antilien" href="{{ path('app_user_edit', {'id': user.id}) }}">edit</a></button>
                 </p>

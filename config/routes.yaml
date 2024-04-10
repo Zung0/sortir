@@ -3,3 +3,6 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+#import_users:
+#    path: /import-utilisateurs
+#    controller: App\Controller\ImportUtilisateursController::index  # Assuming 'index' is your action method

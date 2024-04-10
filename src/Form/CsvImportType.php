@@ -26,7 +26,7 @@ class CsvImportType extends AbstractType
                             'text/csv',
                             'text/plain'
                         ],
-//                        'mimeTypesMessage' => 'Please upload a valid CSV document',
+                        'mimeTypesMessage' => 'Please upload a valid CSV document',
                         'maxSizeMessage' => 'Le fichier est trop volumineux (1 Mo maximum).',
                         'uploadNoFileErrorMessage' => 'Aucun fichier n\'a été téléchargé.',
                         'uploadIniSizeErrorMessage' => 'Le fichier est trop volumineux (défini par le serveur).',

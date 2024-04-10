@@ -80,7 +80,7 @@ class ImportUtilisateursController extends AbstractController
         while (($line = fgets($handle)) !== false) {
             $lines[] = $line;
         }
-        //fclose ferme le getionnaire du fichier
+        //fclose ferme le gestionnaire du fichier
         fclose($handle);
         return $lines;
     }
