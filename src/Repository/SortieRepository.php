@@ -36,13 +36,10 @@ class SortieRepository extends ServiceEntityRepository
 
     public function finSearch(SearchData $search, User $user)
     {
-
         $query = $this
             ->createQueryBuilder('p')
             ->select('p', 's')
             ->join('p.site', 's');
-
-
         if (!empty($search->q)) {
             $query = $query
                 ->andWhere('p.nom LIKE :q')

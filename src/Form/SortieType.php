@@ -11,6 +11,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,9 +32,11 @@ class SortieType extends AbstractType
                 'widget' => 'single_text',
             ])
             ->add('nbinscriptionMax')
-            ->add('infosSortie')
+            ->add('infosSortie',TextareaType::class, [
+
+            ])
             ->add('site', EntityType::class, [
-                'class'=> Site::class,
+                'class' => Site::class,
                 'choice_label' => 'nom',
                 'required' => false
             ])

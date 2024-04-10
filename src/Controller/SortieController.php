@@ -87,7 +87,7 @@ class SortieController extends AbstractController
     public function annulerInscription(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         $sortie = $sortieRepository->find($id);
-        if ($sortie->getParticipants()->contains($this->getUser())) {
+        if ($sortie->getParticipants()->contains($this->getUser()) && $sortie->getDateLimiteInscription() < new \DateTime()) {
             $nbplaces = $sortie->getNbinscriptionMax();
             $nbplaces++;
             $sortie->setNbinscriptionMax($nbplaces);
@@ -129,6 +129,7 @@ class SortieController extends AbstractController
                 $newLocation->setLongitude($responseApi['features'][0]['geometry']['coordinates'][0])
                     ->setLatitude($responseApi['features'][0]['geometry']['coordinates'][1]);
                 $sortie->setOrganisateur($this->getUser());
+                $sortie->setNom($censurator->purify($sortie->getNom()));
                 $sortie->setInfosSortie($censurator->purify($sortie->getInfosSortie()));
                 $em->persist($sortie);
                 $em->flush();
@@ -145,26 +146,33 @@ class SortieController extends AbstractController
     public function modifier(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em,
                              CallAPIService                            $callService, Sortie $sortie, Censurator $censurator): Response
     {
-        $form = $this->createForm(SortieType::class, $sortie);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            /**@var Sortie $newSortie * */
-            $newSortie = $form->getData();
-            $newLocation = $newSortie->getLieu();
-            $responseApi = $callService->getFranceDataLoc($newLocation);
-            if (array_key_exists('features', $responseApi) && count($responseApi['features']) > 0) {
-                $newLocation->setLongitude($responseApi['features'][0]['geometry']['coordinates'][0])
-                    ->setLatitude($responseApi['features'][0]['geometry']['coordinates'][1]);
-                $sortie->setOrganisateur($this->getUser());
-                $sortie->setInfosSortie($censurator->purify($sortie->getInfosSortie()));
-                $em->persist($sortie);
-                $em->flush();
-                $this->addFlash('success', 'La sortie a bien été crée');
-                return $this->redirectToRoute('app_sortie');
+        //TODO tester la condition quand on aura pu git sinon implementer voter
+//        if ($sortie->getOrganisateur() === $this->getUser() or $this->getUser()->getRoles() === array('ROLE_ADMIN')) {
+
+
+            $form = $this->createForm(SortieType::class, $sortie);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                /**@var Sortie $newSortie * */
+                $newSortie = $form->getData();
+                $newLocation = $newSortie->getLieu();
+                $responseApi = $callService->getFranceDataLoc($newLocation);
+                if (array_key_exists('features', $responseApi) && count($responseApi['features']) > 0) {
+                    $newLocation->setLongitude($responseApi['features'][0]['geometry']['coordinates'][0])
+                        ->setLatitude($responseApi['features'][0]['geometry']['coordinates'][1]);
+                    $sortie->setOrganisateur($this->getUser());
+                    $sortie->setNom($censurator->purify($sortie->getNom()));
+                    $sortie->setInfosSortie($censurator->purify($sortie->getInfosSortie()));
+                    $em->persist($sortie);
+                    $em->flush();
+                    $this->addFlash('success', 'La sortie a bien été crée');
+                    return $this->redirectToRoute('app_sortie');
+                }
             }
-        }
-        return $this->render('sortie/form.html.twig', [
-            'createForm' => $form
-        ]);
+            return $this->render('sortie/form.html.twig', [
+                'createForm' => $form
+            ]);
+//        }
+//        return $this->redirectToRoute('app_detail', ['id' => $sortie->getId()]);
     }
 }

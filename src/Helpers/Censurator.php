@@ -4,6 +4,7 @@ namespace App\Helpers;
 
 class Censurator
 {
+
     public function purify(string $text): string
     {
         $filterWords = ['gosh', 'darn', 'poo'];
