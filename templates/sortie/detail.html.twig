@@ -1,83 +1,72 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Hello SortieController!{% endblock %}
 {% block body %}
+    <div id="div1">
     <h2>Afficher une sortie</h2>
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Identifiant de la sortie</th>
-            <th>Nom de la sortie</th>
-            <th>Date de la sortie</th>
-            <th>Date limite d'inscription</th>
-            <th>Nombre de places</th>
-            <th>Nombre de participants</th>
-            <th>Descritption et infos</th>
-            <th>Ville organisatrice</th>
-        </tr>
-        </thead>
-
-        <tbody>
-        <td> {{ sortie.id }}</td>
-        <td> {{ sortie.nom }}</td>
-        <td> {{ sortie.dateheureDebut | date('Y-m-d') }}</td>
-        <td> {{ sortie.datelimiteInscription | date('Y-m-d') }}</td>
-        <td>{{ sortie.nbinscriptionMax }}</td>
-        <td>{{ nbParticipants }}</td>
-        <td>{{ sortie.infosSortie }}</td>
-        {% if sortie.site is not null %}
-            <td>{{ sortie.site.nom }}</td>
-        {% else %}
-            <td>TBD</td>
-        {% endif %}
-
-        </tbody>
-    </table>
-
-    <table class="table table-striped">
-        <thead>
-        <tr>
-            <th>Pseudo</th>
-            <th>Nom</th>
-        </tr>
-        </thead>
-       <p>Nb participant :{{ nbParticipants }}</p>
-        <tbody>
-        {% for participants in sortie.participants %}
+    <table class="table">
+        <thead class="thead-dark">
             <tr>
-            <td>
-                <a href="{{ path('app_user_show', {'id': participants.id}) }}"> {{ participants.username }} </a>
-            </td>
-            <td> {{ participants.nom }} {{ participants.prenom }}</td>
-        {% endfor %}
+                <th>Identifiant de la sortie</th>
+                <th>Nom de la sortie</th>
+                <th>Date de la sortie</th>
+                <th>Date limite d'inscription</th>
+                <th>Nombre de places</th>
+                <th>Nombre de participants</th>
+                <th>Descritption et infos</th>
+                <th>Ville organisatrice</th>
+            </tr>
+
+                <tr>
+                    <td class="font-weight-bold"> {{ sortie.id }}</td>
+                    <td class="font-weight-bold"> {{ sortie.nom }}</td>
+                    <td class="font-weight-bold"> {{ sortie.dateheureDebut | date('Y-m-d') }}</td>
+                    <td class="font-weight-bold"> {{ sortie.datelimiteInscription | date('Y-m-d') }}</td>
+                    <td class="font-weight-bold">{{ sortie.nbinscriptionMax }}</td>
+                    <td class="font-weight-bold">{{ nbParticipants }}</td>
+                    <td class="font-weight-bold">{{ sortie.infosSortie }}</td>
+                        {% if sortie.site is not null %}
+                            <td class="font-weight-bold">{{ sortie.site.nom }}</td>
+                        {% else %}
+                            <td class="font-weight-bold">TBD</td>
+                        {% endif %}
+                </tr>
+    </table>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Pseudo</th>
+                <th>Nom</th>
+            </tr>
+        </thead>
+           <p>Nb participant :{{ nbParticipants }}</p>
+        <tbody>
+            {% for participants in sortie.participants %}
+                <tr>
+                    <td>
+                        <a href="{{ path('app_user_show', {'id': participants.id}) }}"> {{ participants.username }} </a>
+                    </td>
+                <td class="font-weight-bold"> {{ participants.nom }} {{ participants.prenom }}</td>
+            {% endfor %}
             </tr>
         </tbody>
     </table>
+        {% if user is not null %}
 
 
+            {% if user not in sortie.participants %}
 
-    {% if user is not null %}
+                <button id="br" class="btn btn-primary"><a id="antilien" href="{{ path('app_inscription',{'id': sortie.id}) }}">S'inscrire</a></button>
+
+            {% endif %}
 
 
-        {% if user not in sortie.participants %}
-
-            <a href="{{ path('app_inscription',{'id': sortie.id}) }}">S'inscrire</a>
-
+            {% if user in sortie.participants %}
+                <p>Vous êtes inscrit(e)<tr></tr><button id="br" class="btn btn-danger"><a  id="antilien" href="{{ path('app_annulerInscription',{'id': sortie.id}) }}">Annuler</a></button></p>
+            {% endif %}
+            {% if user == sortie.organisateur %}
+                <button id="br" class="btn btn-secondary"><a id="antilien" href="{{ path('app_modifier',{'id': sortie.id}) }}">MODIFIER</a></button>
+                <button id="br" class="btn btn-danger"><a id="antilien" href="{{ path('app_delete',{'id': sortie.id}) }}">DELETE</a></button>
+            {% endif %}
         {% endif %}
-
-
-        {% if user in sortie.participants %}
-
-            <p>Vous êtes inscrit(e) <a href="{{ path('app_annulerInscription',{'id': sortie.id}) }}">Annuler</a></p>
-
-        {% endif %}
-
-        {% if user == sortie.organisateur %}
-
-            <a href="{{ path('app_modifier',{'id': sortie.id}) }}">MODIFIER</a>
-            <a href="{{ path('app_delete',{'id': sortie.id}) }}">DELETE</a>
-
-        {% endif %}
-
-    {% endif %}
+    </div>
 {% endblock %}

@@ -17,6 +17,21 @@
         text-decoration: none;
         color : black;
     }
+    #button {
+        padding: 7px 15px;
+        background: lightgrey;
+        border: none;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    #button1 {
+        padding: 7px 15px;
+        background: #007afd;
+        border: none;
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 @media screen and (min-width: 768px) and (max-width: 992px) {
     #div1 {
@@ -36,6 +51,21 @@
     #antilien {
         text-decoration: none;
         color : black;
+    }
+    #button {
+        padding: 7px 15px;
+        background: lightgrey;
+        border: none;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    #button1 {
+        padding: 7px 15px;
+        background: #007afd;
+        border: none;
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 }
 @media screen and (min-width: 992px) and (max-width: 1200px) {
@@ -57,6 +87,21 @@
         text-decoration: none;
         color : black;
     }
+    #button {
+        padding: 7px 15px;
+        background: lightgrey;
+        border: none;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    #button1 {
+        padding: 7px 15px;
+        background: #007afd;
+        border: none;
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 }
 @media screen and (min-width: 1200px) {
     #div1 {
@@ -76,12 +121,25 @@
         color : black;
     }
     #button {
-        padding: 10px 20px;
+        padding: 7px 15px;
         background: lightgrey;
         border: none;
-        border-radius: 20px;
+        border-radius: 5px;
         margin-top: 10px;
-    ;
+    }
+    #button1 {
+        padding: 7px 15px;
+        background: #007afd;
+        border: none;
+        border-radius: 5px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    #br {
+        margin-top: 10px;
+    }
+    #tr {
+        margin-right: 10px;
     }
 }
 

@@ -1,40 +1,36 @@
 {% extends 'base.html.twig' %}
-
 {% block title %}Liste sortie{% endblock %}
 {% block body %}
 <body>
-<h1>Liste des sorties</h1>
- {{ form(form) }}
-
-<table>
-    <thead>
-    <tr>
-        <th>Nom:</th>
-        <th>date début</th>
-        <th>Cloture Inscription</th>
-        <th>Inscrits/Places</th>
-        <th>Etat</th>
-        <th>Détail</th>
-
-    </tr>
-    </thead>
-    <tbody>
-
-    {% for sortie in sorties %}
-        <tr>
-            <td>{{ sortie.nom }}</td>
-            <td>{{ sortie.dateheureDebut|date('Y-m-d') }}</td>
-            <td>{{ sortie.datelimiteInscription|date('d/m/Y') }}</td>
-            <td>{{ sortie.participants|length }}/{{ sortie.nbinscriptionMax }}</td>
-            <td>{{ sortie.statut.libelle }}</td>
-            {% if sortie.dateheureDebut > onMonthAgo %}
-                <td><a href="{{ path('app_detail', {'id': sortie.id}) }}">Détail/Inscription</a></td>
-            {% endif %}
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+    <div id="div1">
+        <h1>Liste des sorties</h1>
+         {{ form(form) }}
+        <table class="table" >
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nom:</th>
+                    <th>date début</th>
+                    <th>Cloture Inscription</th>
+                    <th>Inscrits/Places</th>
+                    <th>Etat</th>
+                    <th>Détail</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for sortie in sorties %}
+                <tr>
+                    <td>{{ sortie.nom }}</td>
+                    <td>{{ sortie.dateheureDebut|date('Y-m-d') }}</td>
+                    <td>{{ sortie.datelimiteInscription|date('d/m/Y') }}</td>
+                    <td>{{ sortie.participants|length }}/{{ sortie.nbinscriptionMax }}</td>
+                    <td>{{ sortie.statut.libelle }}</td>
+                        {% if sortie.dateheureDebut > onMonthAgo %}
+                            <td><a href="{{ path('app_detail', {'id': sortie.id}) }}">Détail/Inscription</a></td>
+                        {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </body>
-
-
 {% endblock body %}
