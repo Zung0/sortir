@@ -104,7 +104,12 @@
     }
 }
 @media screen and (min-width: 1200px) {
+    nav
+    {
+        margin-bottom: 20px;
+    }
     #div1 {
+        margin-top: 15px;
         margin: auto;
         text-align: center;
         text-decoration: none;

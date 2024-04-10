@@ -17,7 +17,9 @@
 
     {% if is_granted('ROLE_ADMIN') %}
         <br><button id="button" type="button" class="btn-primary"><a id="antilien" href="{{ path('app_user_index') }}">Retour à la liste des utilisateurs</a></button><br>
+    {% endif %}
         <button id="button1" type="button" class="btn-primary"><a id="antilien" href="{{ path('app_user_edit', {'id': user.id}) }}">Modifier le profil</a></button>
         {{ include('user/_delete_form.html.twig') }}
+
     </div>
 {% endblock %}

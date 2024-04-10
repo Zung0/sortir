@@ -102,12 +102,14 @@ class SortieController extends AbstractController
     public function deleteSortie(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         $sortie = $sortieRepository->find($id);
-        if ($sortie->getOrganisateur() === $this->getUser()) {
-            $em->remove($sortie);
-            $em->flush();
-            return $this->redirectToRoute('app_sortie');
-        } else {
-            $this->addFlash('error', 'Authentication failed');
+        if ($sortie->getOrganisateur() === $this->getUser() or $this->getUser()->getRoles() === array('ROLE_ADMIN')) {
+            if ($sortie->getOrganisateur() === $this->getUser()) {
+                $em->remove($sortie);
+                $em->flush();
+                return $this->redirectToRoute('app_sortie');
+            } else {
+                $this->addFlash('error', 'Authentication failed');
+            }
         }
 
         return $this->redirectToRoute('app_detail', ['id' => $id]);
@@ -147,7 +149,7 @@ class SortieController extends AbstractController
                              CallAPIService                            $callService, Sortie $sortie, Censurator $censurator): Response
     {
         //TODO tester la condition quand on aura pu git sinon implementer voter pareil pour delete
-//        if ($sortie->getOrganisateur() === $this->getUser() or $this->getUser()->getRoles() === array('ROLE_ADMIN')) {
+        if ($sortie->getOrganisateur() === $this->getUser() or $this->getUser()->getRoles() === array('ROLE_ADMIN')) {
 
 
             $form = $this->createForm(SortieType::class, $sortie);
@@ -172,7 +174,7 @@ class SortieController extends AbstractController
             return $this->render('sortie/form.html.twig', [
                 'createForm' => $form
             ]);
-//        }
-//        return $this->redirectToRoute('app_detail', ['id' => $sortie->getId()]);
+        }
+        return $this->redirectToRoute('app_detail', ['id' => $sortie->getId()]);
     }
 }
