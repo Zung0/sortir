@@ -37,21 +37,20 @@
     <table class="table table-striped">
         <thead>
         <tr>
-            <th>Liste des participants</th>
             <th>Pseudo</th>
             <th>Nom</th>
         </tr>
         </thead>
+       <p>Nb participant :{{ nbParticipants }}</p>
         <tbody>
-        <td>{{ nbParticipants }}</td>
         {% for participants in sortie.participants %}
+            <tr>
             <td>
                 <a href="{{ path('app_user_show', {'id': participants.id}) }}"> {{ participants.username }} </a>
             </td>
             <td> {{ participants.nom }} {{ participants.prenom }}</td>
         {% endfor %}
-
-        </tr>
+            </tr>
         </tbody>
     </table>
 

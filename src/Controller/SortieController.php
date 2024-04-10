@@ -27,15 +27,15 @@ class SortieController extends AbstractController
     public function index(SortieRepository $sortieRepository, EtatRepository $statutRepository, \Symfony\Component\HttpFoundation\Request $request): Response
     {
         $data = new SearchData();
-        $sorties =[];
+        $sorties = [];
         $form = $this->createForm(SearchForm::class, $data);
         $form->handleRequest($request);
         $oneMonthAgo = new \DateTime('-1 month');
         $sortiesBeforeFilter = $sortieRepository->finSearch($data, $this->getUser());
         foreach ($sortiesBeforeFilter as $sortie) {
-            if($sortie->getDateHeureDebut() < $oneMonthAgo) {
+            if ($sortie->getDateHeureDebut() < $oneMonthAgo) {
                 $sortie->setstatut($statutRepository->findOneBy(['libelle' => 'Passée']));
-            }else{
+            } else {
                 $sorties[] = $sortie;
             }
         }
@@ -73,15 +73,12 @@ class SortieController extends AbstractController
                 $nbplaces--;
                 $sortie->setNbinscriptionMax($nbplaces);
             }
-
             $sortie->addParticipant($this->getUser());
             $em->persist($sortie);
             $em->flush();
             //dd($sortie);
-
             return $this->redirectToRoute('app_detail', ['id' => $id]);
         }
-
         $this->addFlash('error', 'La date limite d\'inscription est dépassée');
         return $this->redirectToRoute('app_detail', ['id' => $id]);
     }
@@ -110,21 +107,19 @@ class SortieController extends AbstractController
             $em->flush();
             return $this->redirectToRoute('app_sortie');
         } else {
-            $this->addFlash('error', 'Vous ne pouvez pas supprimer une sortie dont vous n\'êtes pas l\'organisateur');
+            $this->addFlash('error', 'Authentication failed');
         }
 
         return $this->redirectToRoute('app_detail', ['id' => $id]);
     }
 
     #[Route('/create', name: 'app_create')]
-    public function create(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em, CallAPIService $callService, Censurator $censurator): Response
+    public function create(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em,
+                           CallAPIService                            $callService, Censurator $censurator): Response
     {
         $sortie = new Sortie();
-
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
-
-
         if ($form->isSubmitted() && $form->isValid()) {
             /**@var Sortie $newSortie * */
             $newSortie = $form->getData();
@@ -140,23 +135,18 @@ class SortieController extends AbstractController
                 $this->addFlash('success', 'La sortie a bien été crée');
                 return $this->redirectToRoute('app_sortie');
             }
-
         }
-
         return $this->render('sortie/form.html.twig', [
             'createForm' => $form
         ]);
     }
 
     #[Route('/modifier/{id}', name: 'app_modifier', requirements: ['id' => '\d+'], defaults: ['id' => 0])]
-    public function modifier(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em, CallAPIService $callService, Sortie $sortie): Response
+    public function modifier(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em,
+                             CallAPIService                            $callService, Sortie $sortie, Censurator $censurator): Response
     {
-
-
         $form = $this->createForm(SortieType::class, $sortie);
         $form->handleRequest($request);
-
-
         if ($form->isSubmitted() && $form->isValid()) {
             /**@var Sortie $newSortie * */
             $newSortie = $form->getData();
@@ -166,15 +156,13 @@ class SortieController extends AbstractController
                 $newLocation->setLongitude($responseApi['features'][0]['geometry']['coordinates'][0])
                     ->setLatitude($responseApi['features'][0]['geometry']['coordinates'][1]);
                 $sortie->setOrganisateur($this->getUser());
-
+                $sortie->setInfosSortie($censurator->purify($sortie->getInfosSortie()));
                 $em->persist($sortie);
                 $em->flush();
                 $this->addFlash('success', 'La sortie a bien été crée');
                 return $this->redirectToRoute('app_sortie');
             }
-
         }
-
         return $this->render('sortie/form.html.twig', [
             'createForm' => $form
         ]);

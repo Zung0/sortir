@@ -42,19 +42,19 @@ class SearchForm extends AbstractType
                 'widget' => 'single_text',
                 'required' => false
             ])
-            ->add('sortiesPassees', CheckboxType::class,  [
+            ->add('sortiesPassees', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Sorties passées'
             ])
-            ->add('isOrganisateur', CheckboxType::class,  [
+            ->add('isOrganisateur', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Sorties dont je suis l\'organisateur'
             ])
-            ->add('isInscrit', CheckboxType::class,  [
+            ->add('isInscrit', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Sorties auxquelles je suis inscrit'
             ])
-            ->add('isNotInscrit', CheckboxType::class,  [
+            ->add('isNotInscrit', CheckboxType::class, [
                 'required' => false,
                 'label' => 'Sorties auxquelles je ne suis pas inscrit'
             ])
@@ -63,10 +63,10 @@ class SearchForm extends AbstractType
                     'Du plus récent au plus ancien' => 'ASC',
                     'Du plus ancien au plus récent' => 'DESC'
                 ],
-                    'required' => false,
-                    'placeholder' => 'Trier par',
+                'required' => false,
+                'placeholder' => 'Trier par',
 
-                ])
+            ])
             ->add('submit', SubmitType::class);
 
 
