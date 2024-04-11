@@ -75,7 +75,7 @@ class UserController extends AbstractController
 
             $entityManager->flush();
             $this->addFlash('success', 'Profil modifié avec succès');
-            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('user/edit.html.twig', [

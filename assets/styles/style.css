@@ -115,6 +115,11 @@
         text-decoration: none;
         color : black;
     }
+    #div2
+    {
+
+        margin-top: 15px;
+    }
     #img {
         max-width: 80vw;
         width: 300px;
