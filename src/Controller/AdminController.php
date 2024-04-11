@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Site;
 use App\Entity\User;
 use App\Form\SiteType;
+use App\Form\UserType;
 use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -43,5 +44,25 @@ class AdminController extends AbstractController
             ]);
         }
         return $this->redirectToRoute('app_login');
+    }
+
+    #[Route('/admin/new', name: 'app_admin_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = new User();
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_user_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/new.html.twig', [
+            'user' => $user,
+            'form' => $form,
+        ]);
     }
 }

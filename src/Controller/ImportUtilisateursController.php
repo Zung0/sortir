@@ -13,6 +13,8 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class ImportUtilisateursController extends AbstractController
 {
+    const ROLE_USER = "ROLE_USER";
+
     #[Route('/import/utilisateurs', name: 'app_import_utilisateurs')]
     public function index(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -49,6 +51,7 @@ class ImportUtilisateursController extends AbstractController
                 $utilisateur->setPrenom($data[4]); // Colonne 'prenom'
                 $utilisateur->setTelephone($data[5]); // Colonne 'telephone'
                 $utilisateur->setEmail($data[6]); // Colonne 'email'
+                $utilisateur->setRoles([self::ROLE_USER]); // Colonne 'roles'
 
                 $utilisateurs[] = $utilisateur;
             }
