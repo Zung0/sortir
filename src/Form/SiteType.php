@@ -13,6 +13,8 @@ class SiteType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('submit', SubmitType::class, [
+                'label' => 'Enregistrer',])
         ;
     }
 

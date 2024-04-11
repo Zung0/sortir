@@ -67,7 +67,9 @@ class SearchForm extends AbstractType
                 'placeholder' => 'Trier par',
 
             ])
-            ->add('submit', SubmitType::class);
+            ->add('submit', SubmitType::class, [
+                'label' => 'Filtrer'
+            ]);
 
 
     }
