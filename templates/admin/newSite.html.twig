@@ -2,5 +2,16 @@
 {% block title %}Ajoutez des sites{% endblock %}
 
 {% block body %}
-    {form(formSite)}
+    {% form_theme formSite 'bootstrap_5_layout.html.twig' %}
+    <div class="d-flex justify-content-end">
+        {{ form(formSite) }}
+    </div>
+    <h2>Liste des Sites</h2>
+    <div class="d-flex justify-content-first">
+        {% for site in siteList %}
+            <ul>
+                <li>{{ site.nom }}</li>
+            </ul>
+        {% endfor %}
+    </div>
 {% endblock %}

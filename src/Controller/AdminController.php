@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Site;
 use App\Entity\User;
 use App\Form\SiteType;
+use App\Repository\SiteRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,10 +23,11 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin/site', name: 'app_admin_site')]
-    public function addSite(Request $request, EntityManagerInterface $em, User $user): Response
+    public function addSite(Request $request, EntityManagerInterface $em, SiteRepository $siteRepository): Response
     {
         if ( $this->isGranted('ROLE_ADMIN')) {
             $site = new Site();
+            $siteList = $siteRepository->findAll();
             $formSite = $this->createForm(SiteType::class, $site);
             $formSite->handleRequest($request);
             if ($formSite->isSubmitted() && $formSite->isValid()) {
@@ -36,7 +38,8 @@ class AdminController extends AbstractController
 
             }
             return $this->render('admin/newSite.html.twig', [
-                'formSite' => $formSite
+                'formSite' => $formSite,
+                'siteList' => $siteList
             ]);
         }
         return $this->redirectToRoute('app_login');
