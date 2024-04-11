@@ -63,7 +63,7 @@
             {% if user in sortie.participants %}
                 <p>Vous êtes inscrit(e)<tr></tr><button id="br" class="btn btn-danger"><a  id="antilien" href="{{ path('app_annulerInscription',{'id': sortie.id}) }}">Annuler</a></button></p>
             {% endif %}
-            {% if user == sortie.organisateur %}
+            {% if (user == sortie.organisateur or is_granted('ROLE_ADMIN')) %}
                 <button id="br" class="btn btn-secondary"><a id="antilien" href="{{ path('app_modifier',{'id': sortie.id}) }}">MODIFIER</a></button>
                 <button id="br" class="btn btn-danger"><a id="antilien" href="{{ path('app_delete',{'id': sortie.id}) }}">DELETE</a></button>
             {% endif %}
