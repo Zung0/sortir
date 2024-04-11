@@ -24,7 +24,7 @@ class AdminController extends AbstractController
     #[Route('/admin/site', name: 'app_admin_site')]
     public function addSite(Request $request, EntityManagerInterface $em, User $user): Response
     {
-        if ($this->getUser()->getRoles() === array('ROLE_ADMIN')) {
+        if ( $this->isGranted('ROLE_ADMIN')) {
             $site = new Site();
             $formSite = $this->createForm(SiteType::class, $site);
             $formSite->handleRequest($request);

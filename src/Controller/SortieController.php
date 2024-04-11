@@ -102,7 +102,7 @@ class SortieController extends AbstractController
     public function deleteSortie(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         $sortie = $sortieRepository->find($id);
-        if ($sortie->getOrganisateur() === $this->getUser() or $this->getUser()->getRoles() === array('ROLE_ADMIN')) {
+        if ($sortie->getOrganisateur() === $this->getUser() or $this->isGranted('ROLE_ADMIN')) {
             if ($sortie->getOrganisateur() === $this->getUser()) {
                 $em->remove($sortie);
                 $em->flush();
@@ -148,8 +148,8 @@ class SortieController extends AbstractController
     public function modifier(\Symfony\Component\HttpFoundation\Request $request, EntityManagerInterface $em,
                              CallAPIService                            $callService, Sortie $sortie, Censurator $censurator): Response
     {
-        //TODO tester la condition quand on aura pu git sinon implementer voter pareil pour delete
-        if ($sortie->getOrganisateur() === $this->getUser() or $this->getUser()->getRoles() === array('ROLE_ADMIN')) {
+
+        if ($sortie->getOrganisateur() === $this->getUser() or $this->isGranted('ROLE_ADMIN')) {
 
 
             $form = $this->createForm(SortieType::class, $sortie);
