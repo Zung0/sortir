@@ -4,19 +4,17 @@
 
 {% block body %}
     <div id="div1">
-        <h1>Profil de {{ app.user.username|capitalize }}</h1>
-
-        <p>Nom: {{ app.user.nom }}</p>
-        <p>Prénom: {{ app.user.prenom }}</p>
-        <p>Email: {{ app.user.email }}</p>
-        <p>Numéro de téléphone: {{ app.user.telephone }}</p>
+        <h1>Profil de {{ user.username|capitalize }}</h1>
+        <p>Nom: {{ user.nom }}</p>
+        <p>Prénom: {{ user.prenom }}</p>
+        <p>Email: {{ user.email }}</p>
+        <p>Numéro de téléphone: {{ user.telephone }}</p>
 
         {% if user.images is not empty %}
             <img src="{{ asset('images/' ~ user.images) }}" alt="Image" id="img">
         {% endif %}
         <div id="div2">
             {% if is_granted('ROLE_ADMIN') %}
-                <br>
                 <button id="button" type="button" class="btn-primary"><a id="antilien"
                                                                          href="{{ path('app_user_index') }}">Retour à la
                         liste des utilisateurs</a></button><br>

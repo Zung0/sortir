@@ -49,9 +49,10 @@ class UserController extends AbstractController
     }
 
 //affiche le profil de la personne connectée
-    #[Route('/{id}', name: 'app_user_show', methods: ['GET'])]
-    public function show(User $user): Response
+    #[Route('/{id}', name: 'app_user_show', requirements: ['id' => '\d+'], methods: ['GET'])]
+    public function show(UserRepository $userRepository, User $user): Response
     {
+        $user = $userRepository->find($user->getId());
         return $this->render('user/show.html.twig', [
             'user' => $user,
         ]);
