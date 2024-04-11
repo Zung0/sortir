@@ -68,10 +68,11 @@ class SortieController extends AbstractController
     {
         $sortie = $sortieRepository->find($id);
         if ($sortie->getDateLimiteInscription() > new \DateTime()) {
-            if (!$sortie->getParticipants()->contains($this->getUser())) {
-                $nbplaces = $sortie->getNbinscriptionMax();
-                $nbplaces--;
-                $sortie->setNbinscriptionMax($nbplaces);
+            if (!$sortie->getParticipants()->contains($this->getUser()) && $sortie->getNbinscriptionMax() > 0) {
+                    $nbplaces = $sortie->getNbinscriptionMax();
+                    $nbplaces--;
+                    $sortie->setNbinscriptionMax($nbplaces);
+
             }
             $sortie->addParticipant($this->getUser());
             $em->persist($sortie);
@@ -87,11 +88,12 @@ class SortieController extends AbstractController
     public function annulerInscription(SortieRepository $sortieRepository, int $id, EntityManagerInterface $em): Response
     {
         $sortie = $sortieRepository->find($id);
-        if ($sortie->getParticipants()->contains($this->getUser()) && $sortie->getDateLimiteInscription() < new \DateTime()) {
+        if ($sortie->getParticipants()->contains($this->getUser()) && $sortie->getDateLimiteInscription() > new \DateTime()) {
             $nbplaces = $sortie->getNbinscriptionMax();
             $nbplaces++;
             $sortie->setNbinscriptionMax($nbplaces);
         }
+
         $sortie->removeParticipant($this->getUser());
         $em->persist($sortie);
         $em->flush();

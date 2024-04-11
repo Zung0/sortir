@@ -62,9 +62,12 @@ class UserController extends AbstractController
     #[IsGranted('ROLE_USER') ]
     public function edit(Request $request, User $user, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        if($user !== $this->getUser() or $this->isGranted('ROLE_ADMIN')){
+            $this->addFlash('danger', 'Vous ne pouvez pas modifier ce profil');
+            return $this->redirectToRoute('app_user_show', ['id' => $user->getId()], Response::HTTP_SEE_OTHER);
+        }else{
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
-
         if ($form->isSubmitted() && $form->isValid()) {
             if($form->get('images')->getData()instanceof UploadedFile){
                 $image = $form->get('images')->getData();
@@ -83,6 +86,7 @@ class UserController extends AbstractController
             'user' => $user,
             'form' => $form,
         ]);
+        }
     }
 
 
